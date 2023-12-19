@@ -122,6 +122,8 @@ body {
 
 /* Header */
 body>header {
+    --angle: 120deg;
+    --line-height: calc(0.75rem * var(--line-height-multiplier));
     position: fixed;
     display: flex;
     flex-direction: row;
@@ -136,8 +138,9 @@ h1 {
     --horizontal-padding: 1rem;
     --vertical-padding: 1rem;
     --logo-width: calc(var(--logo-horizontal-ratio) * var(--logo-horizontal-height));
-    --width: calc(var(--logo-width) + var(--horizontal-padding) * 2);
     --height: calc(var(--logo-horizontal-height) + var(--vertical-padding) * 2);
+    --angle-width: cos(var(--angle)) * var(--height) * -1 - 1px;
+    --width: calc(var(--logo-width) + var(--horizontal-padding) * 2 + var(--angle-width));
     position: relative;
     flex: 0 0 auto;
     width: var(--width);
@@ -146,9 +149,8 @@ h1 {
     text-indent: -100vw;
     overflow: hidden;
     transition-property: none;
-    padding: 1rem var(--horizontal-padding);
-    /* background-color: var(--black); */
-    background-image: linear-gradient(120deg, var(--black), var(--black) calc(100% - cos(45deg) * var(--height)), transparent calc(100% - cos(45deg) * var(--height) + 2px));
+    padding: var(--vertical-padding) var(--horizontal-padding);
+    background-image: linear-gradient(var(--angle), var(--black), var(--black) calc(100% - var(--angle-width)), transparent calc(100% - var(--angle-width) + 2px));
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -172,12 +174,18 @@ body>header>ul {
 }
 
 body>header>ul>li {
+    --vertical-padding: 0.25rem;
     --color: var(--blue);
+    --height: calc(var(--line-height) * 2 + var(--vertical-padding) * 2);
+    --angle-width: cos(var(--angle)) * var(--height) * -1 - 1px;
     flex: 1;
     text-align: center;
-    padding: 0.25rem 0.5rem;
+    padding: var(--vertical-padding) 0.5rem;
     color: var(--white);
-    background-color: var(--color);
+    /* background-color: var(--color); */
+    background-image: linear-gradient(var(--angle), var(--color), var(--color) calc(100% - var(--angle-width)), transparent calc(100% - var(--angle-width) + 2px));
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 body>header>ul>li:nth-of-type(2) {
