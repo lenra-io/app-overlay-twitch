@@ -1,5 +1,6 @@
 import { Manifest, View } from '@lenra/app';
 import { Counter } from './classes/Counter.js';
+import { Event, EventType } from './classes/Event.js';
 
 const manifest: Manifest = {
     json: {
@@ -15,6 +16,10 @@ const manifest: Manifest = {
                 view: View("counter").find(Counter, {
                     "user": "@me"
                 }).toJSON()
+            },
+            {
+                path: "/lastInfos",
+                view: View("event").find(Event, {}).toJSON()
             }
         ]
     },
@@ -23,6 +28,10 @@ const manifest: Manifest = {
             {
                 path: "/",
                 view: View("lenra.main").toJSON()
+            },
+            {
+                path: '/settings',
+                view: View('lenra.settings').toJSON()
             }
         ]
     }

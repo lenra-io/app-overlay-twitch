@@ -3,12 +3,12 @@ import { Counter } from "../../classes/Counter.js"
 
 export default function (_data: ViewRequest['data'], _props: ViewRequest['props']): Component<IComponent> | IComponent {
     return Flex([
-        View("lenra.counter")
+        View("lenra.components.counter")
             .find(Counter, {
                 "user": "@me"
             })
             .props({ text: "My personnal counter" }),
-        View("lenra.counter")
+        View("lenra.components.counter")
             .find(Counter, {
                 "user": "global"
             })
