@@ -2,20 +2,21 @@ path: server
 generator:
   dofigen:
     builders:
-      - from: "oven/bun"
+      - from: oven/bun
         workdir: /app
         root:
           script:
             - chown -R 1000:1000 /app
         adds:
-          - "package.json"
-          - "bun.lockb"
+          - package.json
+          - bun.lockb
         script:
           - bun install --production
-    from: builder-0
-    root:
-      script:
-        - chmod +r -R /app
+      - from: builder-0
+        root:
+          script:
+            - chmod +r -R /app
+    from: builder-1
     adds:
       - .
     cmd:

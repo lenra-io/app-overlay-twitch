@@ -4,23 +4,12 @@ const app = new LenraApp({
     clientId: "XXX-XXX-XXX",
 });
 
-console.log("connecting...");
 app.connect().then(() => {
-    console.log("Connected !");
-
-    const counters = document.querySelectorAll(".counter");
-
-    counters.forEach((counter) => {
-        const button = counter.querySelector("button");
-        const output = counter.querySelector("output");
-        const route = app.route(`/counter/${counter.id}`, (data) => {
-            output.textContent = data.value;
-            button.onclick = () => {
-                output.classList.add("loading");
-                route.callListener({code: data.onIncrement.code, event: {value: "custom value"}}).then(() => {
-                    output.classList.remove("loading");
-                });
-            };
-        });
+    const route = app.route(`/events`, (data) => {
+        let outputs = document.getElementsByTagName("output");
+        outputs[0].innerHTML = data.value.lastSubscriber;
+        outputs[1].innerHTML = data.value.lastFollower;
+        outputs[2].innerHTML = data.value.donation;
+        outputs[3].innerHTML = data.value.subscriptionCount;
     });
 });

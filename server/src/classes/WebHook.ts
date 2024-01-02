@@ -1,20 +1,12 @@
 import { Data } from "@lenra/app";
 
-export enum EventType {
-    Follower = 'follower',
-    Subscriber = 'subscriber',
-    Donation = 'donation'
-}
-
-export class Event extends Data {
-    type: EventType
-    viewer: string
+export class WebHook extends Data {
+    token: string
     timestamp: number
 
-    constructor(type: EventType, viewer: string, timestamp: number) {
+    constructor(token: string, timestamp: number) {
         super();
-        this.type = type;
-        this.viewer = viewer;
+        this.token = token;
         this.timestamp = timestamp;
     }
 }

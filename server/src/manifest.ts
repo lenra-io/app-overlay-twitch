@@ -1,36 +1,20 @@
 import { Manifest, View } from '@lenra/app';
-import { Counter } from './classes/Counter.js';
-import { Event, EventType } from './classes/Event.js';
+import { ChannelData } from './classes/ChannelData.js';
+import { ChannelAccess } from './classes/ChannelAccess.js';
 
 const manifest: Manifest = {
     json: {
         routes: [
             {
-                path: "/counter/global",
-                view: View("counter").find(Counter, {
-                    "user": "global"
-                }).toJSON()
-            },
-            {
-                path: "/counter/me",
-                view: View("counter").find(Counter, {
-                    "user": "@me"
-                }).toJSON()
-            },
-            {
-                path: "/lastInfos",
-                view: View("event").find(Event, {}).toJSON()
+                path: "/data",
+                view: View("channelData").find(ChannelData, {}).toJSON()
             }
         ]
     },
     lenra: {
         routes: [
             {
-                path: "/",
-                view: View("lenra.main").toJSON()
-            },
-            {
-                path: '/settings',
+                path: '/',
                 view: View('lenra.settings').toJSON()
             }
         ]

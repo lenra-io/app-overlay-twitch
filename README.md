@@ -4,6 +4,13 @@
 -->
 
 
+Récupération des clients ID et Token pour l'API Twitch via https://twitchtokengenerator.com/
+
+Les scopes nécessaires sont :
+- channel:read:subscriptions
+- moderator:read:followers
+- bits:read
+
 
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
