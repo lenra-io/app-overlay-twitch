@@ -61,7 +61,7 @@ button {
     --primary-color-disabled: var(--light-primary-color-disabled);
     --invert-primary-color-disabled: var(--dark-primary-color-disabled);
     --background-image: url("../img/fond.svg");
-    --font-size: 1rem;
+    --font-size: 1.25rem;
     --line-height-multiplier: calc(3 / 2);
     --line-height: calc(1rem * var(--line-height-multiplier));
     --title-font-size-multiplier: 2;
@@ -113,6 +113,8 @@ button {
     /* cos gets the distance to the corner */
     /* --angle-size-factor: calc(cos(var(--angle)) * var(--angle-width-factor)); */
     --angle-size-factor: calc(0.86602540378 * var(--angle-width-factor));
+
+    font-size: var(--font-size);
 }
 
 html {

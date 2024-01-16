@@ -5,11 +5,12 @@ const app = new LenraApp({
 });
 
 app.connect().then(() => {
-    const route = app.route(`/events`, (data) => {
+    const route = app.route(`/data`, (data) => {
         let outputs = document.getElementsByTagName("output");
-        outputs[0].innerHTML = data.value.lastSubscriber;
-        outputs[1].innerHTML = data.value.lastFollower;
-        outputs[2].innerHTML = data.value.donation;
-        outputs[3].innerHTML = data.value.subscriptionCount;
+        console.log("Received data", data);
+        outputs[0].innerHTML = data.lastSubscriber;
+        outputs[1].innerHTML = data.lastFollower;
+        outputs[2].innerHTML = data.donation;
+        outputs[3].innerHTML = data.subscriptionCount;
     });
 });
