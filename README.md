@@ -4,7 +4,7 @@
 -->
 
 
-Récupération des clients ID et Token pour l'API Twitch via https://twitchtokengenerator.com/
+Récupération des clients ID et Token pour l'API Twitch via https://twitchtokengenerator.com/quick/G39y1uYNSl
 
 Quick link avec les scopes nécessaires: https://twitchtokengenerator.com/quick/XKkwXUHO4G
 
@@ -61,7 +61,7 @@ To run the Javascript template just run:
 lenra dev
 ```
 
-You can then access the application by opening [`localhost:4000`](http://localhost:4000) on your web browser. 
+You can then access the application by opening [`localhost:4000`](http://localhost:4000) on your web browser.
 
 This template is a basic implementation of a Lenra application using the Javascript language. You can get your application started by using this template.
 

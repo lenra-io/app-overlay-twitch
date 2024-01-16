@@ -6,7 +6,9 @@ export default function ([access]: ChannelAccess[], _props: ViewRequest['props']
         Text('Twitch Client ID:'),
         TextField('').name('clientId').autofocus(true),
         Text('Twitch Access Token:'),
-        TextField('').name('token'),
+        TextField('').name('accessToken'),
+        Text('Twitch Refresh Token:'),
+        TextField('').name('refreshToken'),
         Button('Update Token').submit(true),
     ])
         .direction("vertical")
@@ -14,4 +16,3 @@ export default function ([access]: ChannelAccess[], _props: ViewRequest['props']
         .mainAxisAlignment("spaceEvenly")
         .crossAxisAlignment("center")).onSubmit('updateToken')
 }
-

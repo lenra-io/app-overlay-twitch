@@ -1,5 +1,6 @@
 import { Api, ListenerRequest } from '@lenra/app';
-import { WebHook } from '../classes/WebHook';
+import { WebHook, WebHookState } from '../classes/WebHook';
+import * as WebhookService from '../services/webhook';
 
 export async function onEnvStart(_props: ListenerRequest['props'], _event: ListenerRequest['event'], api: Api) {
 }
@@ -7,11 +8,14 @@ export async function onEnvStart(_props: ListenerRequest['props'], _event: Liste
 export async function onUserFirstJoin(_props: ListenerRequest['props'], _event: ListenerRequest['event'], api: Api) {
 }
 
-export async function onSessionStart(_props: ListenerRequest['props'], _event: ListenerRequest['event'], api: Api) {
-    const webhook = await api.data.coll(WebHook).find({});
+export async function onSessionStart(props: ListenerRequest['props'], _event: ListenerRequest['event'], api: Api) {
+    let webhook:WebHook = await api.data.coll(WebHook).find({ user: '@me' })?.[0];
     // TODO: Check if new followers/subs/donation
-    if (webhook.length !== 0) {
+    if (webhook) {
         // TODO: Call the webhook that will start the twurple thread
+        if (webhook.state != WebHookState.RUNNING) {
+            await WebhookService.trigger(webhook, props, api)
+        }
     }
 }
 

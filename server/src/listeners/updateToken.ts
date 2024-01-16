@@ -1,8 +1,10 @@
 import { Api, ListenerRequest } from '@lenra/app';
 import { ChannelAccess } from '../classes/ChannelAccess.js';
-import { StaticAuthProvider } from '@twurple/auth';
+import { StaticAuthProvider, AccessToken } from '@twurple/auth';
 import { ApiClient } from '@twurple/api';
 import { ChannelData } from '../classes/ChannelData.js';
+import * as WebhookService from '../services/webhook';
+import { WebHook, WebHookState } from '../classes/WebHook.js';
 
 export default async function (_props: ListenerRequest['props'], event: { value: ChannelAccess }, api: Api) {
     // Update or create the Webhook document that will contain the webhook token
@@ -19,9 +21,14 @@ export default async function (_props: ListenerRequest['props'], event: { value:
             access.clientId = event.value.clientId;
             changed = true;
         }
-        event.value.token = event.value.token.trim();
-        if (event.value.token.length > 0) {
-            access.token = event.value.token;
+        event.value.accessToken = event.value.accessToken.trim();
+        if (event.value.accessToken.length > 0) {
+            access.accessToken = event.value.accessToken;
+            changed = true;
+        }
+        event.value.refreshToken = event.value.refreshToken.trim();
+        if (event.value.refreshToken.length > 0) {
+            access.refreshToken = event.value.refreshToken;
             changed = true;
         }
         if (changed) access = await coll.ChannelAccess.updateDoc(access);
@@ -31,7 +38,7 @@ export default async function (_props: ListenerRequest['props'], event: { value:
     }
     // TODO: call the API to build the ChannelData document
     let [channelData] = await coll.ChannelData.find({});
-    const authProvider = new StaticAuthProvider(access.clientId, access.token, ['channel:read:subscriptions', 'moderator:read:followers', 'bits:read'])
+    const authProvider = new StaticAuthProvider(access.clientId, { accessToken: access.accessToken, refreshToken: access.refreshToken } as AccessToken, ['channel:read:subscriptions', 'moderator:read:followers', 'bits:read'])
     const apiClient = new ApiClient({ authProvider });
     const currentUser = await apiClient.getTokenInfo();
     const [subs, /*bits,*/ follower] = await Promise.all([
@@ -47,6 +54,14 @@ export default async function (_props: ListenerRequest['props'], event: { value:
     channelData.lastUpdate = Date.now();
     if (channelData._id) await coll.ChannelData.updateDoc(channelData);
     else await coll.ChannelData.createDoc(channelData);
+
+    let webhook:WebHook = await api.data.coll(WebHook).find({ user: '@me' })?.[0];
+    if (!webhook) {
+        webhook = await WebhookService.create('@me', channelData as unknown as ListenerRequest['props'], api)
+    }
+    if ([WebHookState.SUCCEEDED, WebHookState.CANCELLED, WebHookState.FAILED].includes(webhook.state)) {
+        await WebhookService.trigger(webhook, event, api)
+    }
 }
 
 async function getSubscriptions(client: ApiClient, broadcasterId: string) {
@@ -56,7 +71,7 @@ async function getSubscriptions(client: ApiClient, broadcasterId: string) {
 
 /**
  * Get the user name of the user who has given the most bits to the channel.
- * 
+ *
  * @returns {string} The user name of the user who has given the most bits to the channel.
  */
 async function getBitsLeaderboard(client: ApiClient, broadcasterId: string) {
@@ -69,7 +84,7 @@ async function getBitsLeaderboard(client: ApiClient, broadcasterId: string) {
 
 /**
  * Get the user name of the latest follower.
- * 
+ *
  * @returns {string} The user name of the latest follower.
  */
 async function getLatestFollower(client: ApiClient, broadcasterId: string) {
