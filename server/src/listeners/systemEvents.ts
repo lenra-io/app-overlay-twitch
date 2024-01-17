@@ -9,7 +9,8 @@ export async function onUserFirstJoin(_props: ListenerRequest['props'], _event: 
 }
 
 export async function onSessionStart(props: ListenerRequest['props'], _event: ListenerRequest['event'], api: Api) {
-    let webhook:WebHook = await api.data.coll(WebHook).find({ user: '@me' })?.[0];
+    const webhooks = await api.data.coll(WebHook).find({ user: '@me' });
+    let webhook = webhooks[0];
     // TODO: Check if new followers/subs/donation
     if (webhook) {
         // TODO: Call the webhook that will start the twurple thread

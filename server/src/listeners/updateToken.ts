@@ -55,11 +55,11 @@ export default async function (_props: ListenerRequest['props'], event: { value:
     if (channelData._id) await coll.ChannelData.updateDoc(channelData);
     else await coll.ChannelData.createDoc(channelData);
 
-    let webhook:WebHook = await api.data.coll(WebHook).find({ user: '@me' })?.[0];
-    if (!webhook) {
-        webhook = await WebhookService.create('@me', channelData as unknown as ListenerRequest['props'], api)
+    let webhook = await WebhookService.get(api);
+    if (webhook === undefined) {
+        webhook = await WebhookService.create('@me', {access, data: channelData}, api)
     }
-    if ([WebHookState.SUCCEEDED, WebHookState.CANCELLED, WebHookState.FAILED].includes(webhook.state)) {
+    if ([WebHookState.READY, WebHookState.SUCCEEDED, WebHookState.CANCELLED, WebHookState.FAILED].includes(webhook.state)) {
         await WebhookService.trigger(webhook, event, api)
     }
 }

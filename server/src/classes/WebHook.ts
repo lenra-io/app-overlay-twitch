@@ -1,7 +1,8 @@
 import { Data } from "@lenra/app";
 
 export enum WebHookState {
-    READY = 0,
+    CREATING = 0,
+    READY,
     INIT,
     RUNNING,
     SUCCEEDED,

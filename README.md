@@ -4,7 +4,7 @@
 -->
 
 
-Récupération des clients ID et Token pour l'API Twitch via https://twitchtokengenerator.com/quick/G39y1uYNSl
+Récupération des clients ID et Token pour l'API Twitch via https://twitchtokengenerator.com/
 
 Quick link avec les scopes nécessaires: https://twitchtokengenerator.com/quick/XKkwXUHO4G
 
