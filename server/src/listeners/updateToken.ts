@@ -1,7 +1,7 @@
 import { Api, ListenerRequest } from '@lenra/app';
 import { ChannelAccess } from '../classes/ChannelAccess.js';
 import { StaticAuthProvider, AccessToken } from '@twurple/auth';
-import { ApiClient } from '@twurple/api';
+import { ApiClient, HelixPaginatedSubscriptionsResult } from '@twurple/api';
 import { ChannelData } from '../classes/ChannelData.js';
 import * as WebhookService from '../services/webhook';
 import { WebHook, WebHookState } from '../classes/WebHook.js';
@@ -46,6 +46,7 @@ export default async function (_props: ListenerRequest['props'], event: { value:
         // getBitsLeaderboard(apiClient, currentUser.userId),
         getLatestFollower(apiClient, currentUser.userId),
     ]);
+    console.log("data", subs, follower);
     if (!channelData) channelData = new ChannelData();
     channelData.lastSubscriber = subs.last;
     channelData.subscriptionCount = subs.total;
@@ -57,7 +58,7 @@ export default async function (_props: ListenerRequest['props'], event: { value:
 
     let webhook = await WebhookService.get(api);
     if (webhook === undefined) {
-        webhook = await WebhookService.create('@me', {access, data: channelData}, api)
+        webhook = await WebhookService.create('@me', { access, data: channelData }, api)
     }
     if ([WebHookState.READY, WebHookState.SUCCEEDED, WebHookState.CANCELLED, WebHookState.FAILED].includes(webhook.state)) {
         await WebhookService.trigger(webhook, event, api)
@@ -65,8 +66,20 @@ export default async function (_props: ListenerRequest['props'], event: { value:
 }
 
 async function getSubscriptions(client: ApiClient, broadcasterId: string) {
-    const subs = await client.subscriptions.getSubscriptions(broadcasterId, { limit: 1 });
-    return { last: subs.data[0].userName, total: subs.total };
+    const subs = [];
+    let cursor: HelixPaginatedSubscriptionsResult;
+    let total = null;
+    do {
+        cursor = await client.subscriptions.getSubscriptions(broadcasterId, { limit: 10, after: cursor?.cursor });
+        subs.push(
+            ...cursor.data
+                .filter(s => s.broadcasterId !== s.userId)
+                .map(s => s.userDisplayName)
+        );
+        if (total === null) total = cursor.total;
+    } while (subs.length !== total && cursor.data.length !== 0);
+
+    return { last: subs[subs.length - 1], total: subs.length };
 }
 
 /**

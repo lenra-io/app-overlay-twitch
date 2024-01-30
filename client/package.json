@@ -6,7 +6,7 @@
   "sourceType": "module",
   "scripts": {
     "start": "http-server -p 3030",
-    "build": "esbuild src/index.js --bundle --outfile=dist/bundle.js"
+    "build": "bun build.js && esbuild src/index.js --bundle --outfile=dist/bundle.js"
   },
   "dependencies": {
     "@lenra/client": "^1"
