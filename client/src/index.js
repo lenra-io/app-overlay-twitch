@@ -6,7 +6,8 @@ const subsProgress = document.getElementById("subsProgress");
 subsProgress.querySelector("strong").innerHTML = subsGoal;
 
 const app = new LenraApp({
-    clientId: "XXX-XXX-XXX",
+    clientId: "9f3fbb6c-c865-4d98-b815-4affb3c24bee",
+    redirectUri: window.location.href.replace(/\/(index\.html(\?.*))?$/, "/redirect.html"),
 });
 
 app.connect().then(() => {
