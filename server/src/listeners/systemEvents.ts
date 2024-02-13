@@ -15,7 +15,7 @@ export async function onSessionStart(props: ListenerRequest['props'], _event: Li
     if (webhook) {
         // TODO: Call the webhook that will start the twurple thread
         if (webhook.state != WebHookState.RUNNING) {
-            await WebhookService.trigger(webhook, props, api)
+            WebhookService.trigger(webhook, props, api)
         }
     }
 }
