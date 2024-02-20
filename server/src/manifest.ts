@@ -7,7 +7,8 @@ const manifest: Manifest = {
         routes: [
             {
                 path: "/data",
-                view: View("channelData").find(ChannelData, {}).toJSON()
+                view: View("channelData").find(ChannelData, {}).toJSON(),
+                roles: ["guest", "user"]
             }
         ]
     },
