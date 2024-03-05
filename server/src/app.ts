@@ -6,6 +6,7 @@ const port = process.env.http_port || 3000;
 export default class BunServer extends App {
     start() {
         const app = this;
+        console.log("Starting server on port", port);
         Bun.serve({
             port,
             async fetch(req) {
