@@ -32,8 +32,8 @@ generator:
       - 3000
     healthcheck:
       cmd: bun run healthcheck http://localhost:8080/_/health
-      interval: 1s
-      timeout: 1s
+      interval: 2s
+      timeout: 2s
       start: 200ms
     ignores:
       - "**"
