@@ -1,4 +1,4 @@
-import { File } from '@lenra/app/dist/lib/handler.js';
+import { File } from '@lenra/app/dist/lib/handler';
 import { App } from "@lenra/app";
 
 const port = process.env.http_port || 3000;
