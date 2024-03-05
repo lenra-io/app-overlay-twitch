@@ -36,6 +36,8 @@ export default class BunServer extends App {
                 }
             },
         });
+        console.log("Server started on port", port);
         Bun.write("/tmp/.lock", "\n");
+        console.log("Lock file created");
     }
 }
