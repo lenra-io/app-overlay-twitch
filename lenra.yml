@@ -1,8 +1,9 @@
-path: server
+path: server/
 generator:
   dofigen:
     builders:
-      - from: oven/bun
+      - name: bun-install
+        from: oven/bun
         workdir: /app
         root:
           script:
@@ -12,11 +13,12 @@ generator:
           - bun.lockb
         script:
           - bun install --production
-      - from: builder-0
+      - name: read-access
+        from: bun-install
         root:
           script:
             - chmod +r -R /app
-    from: builder-1
+    from: read-access
     adds:
       - .
     cmd:
@@ -37,7 +39,6 @@ generator:
       - "!/package.json"
       - "!/bun.lockb"
       - "!/src/"
-
 dev:
   devtool:
     logLevel: debug
