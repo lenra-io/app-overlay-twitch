@@ -27,7 +27,7 @@ generator:
       - start
     envs:
       NODE_ENV: production
-      healthcheck_interval: 2h
+      healthcheck_interval: "36000"
     ports:
       - 3000
     healthcheck:
