@@ -5,10 +5,13 @@ const port = process.env.http_port || 3000;
 
 export default class BunServer extends App {
     start() {
+        console.log("Starting Bun server...");
+
         const app = this;
         Bun.serve({
             port,
             async fetch(req) {
+                console.log("Request received", req.method, req.url);
                 try {
                     if (req.method === "POST") {
                         const payload = await req.json();
