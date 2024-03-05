@@ -38,9 +38,9 @@ generator:
       - "!/bun.lockb"
       - "!/src/"
 
-dev:
-  devtool:
-    logLevel: debug
+# dev:
+#   devtool:
+#     logLevel: debug
   # dofigen:
   #   cmd:
   #   - bun run debug

@@ -15,7 +15,7 @@
   "author": "Lenra",
   "license": "MIT",
   "dependencies": {
-    "@lenra/app": "^1.1.0",
+    "@lenra/app": "^1.3.0",
     "@twurple/api": "^7.0.6",
     "@twurple/chat": "^7.0.6",
     "@twurple/eventsub-ws": "^7.0.6"
