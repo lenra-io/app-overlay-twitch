@@ -163,6 +163,7 @@ h1 {
     text-align: left;
     transition-property: none;
     padding: var(--vertical-padding) var(--horizontal-padding);
+    text-indent: -100vw;
     z-index: 10;
 }
 
