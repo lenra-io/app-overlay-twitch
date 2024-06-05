@@ -42,6 +42,7 @@ generator:
       - "!/src/"
 dev:
   devtool:
+    tag: local
     logLevel: debug
   # dofigen:
   #   cmd:
